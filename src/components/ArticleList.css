@@ -1,0 +1,45 @@
+.article-link {
+    list-style-type: none;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+.article-link-box {
+    background-color: grey;
+    height: 110px;
+    margin-bottom: 10px;
+}
+
+.artcile-box {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.votes-number {
+    float: left;
+    width: 100px;
+    height: 60px;
+    padding-top: 50px;
+    background-color: lightgray;
+}
+
+.comment-count {
+    margin-top: 0px;
+}
+
+.article-author {
+    padding-bottom: 0px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.unhidden {
+    display: unset;
+    height: 100px;
+}
