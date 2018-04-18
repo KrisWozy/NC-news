@@ -1,21 +1,37 @@
 import React, {Component} from 'react'
 import './ArticleList.css'
 import PT from 'prop-types'
+import axios from 'axios'
 
-function ArticleList({articles}) {
+class ArticleList extends Component {
+    state = {
+        articles: []
+    }
+
+    componentWillReceiveProps = () => {
+        axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.props.currentTopic}/articles`)
+          .then((res) => {
+            this.setState({
+              articles: res.data
+            }) 
+        })
+    }
+
+    render() {
     return (
-        <div className='artcile-box'>
-            <ul>{articles.map(article => {
+        <div className={`artcile-box ${this.props.currentTopic}`}>
+            <ul className='article-list'>{this.state.articles.map(article => {
                 return( 
                     <ArticleLink article={article} key={article._id}/>
                 )
-            })}</ul>
+            })}
+            </ul>
         </div>
-    )
+    )}
 }
 
 ArticleList.propTypes = {
-    articles : PT.array.isRequired
+    currentTopic : PT.string.isRequired
 }
 
 class ArticleLink extends Component {

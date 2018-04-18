@@ -3,11 +3,30 @@
     display: inline-block;
     padding: 20px;
     font-size: 32px;
-    background-color: grey;
     margin-left: 5px;
     margin-right: 5px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    cursor: pointer;
 }
 
 .topic-button:hover {
-    background-color: whitesmoke;
+    color: whitesmoke;
+}
+
+.nav-bar{
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.coding {
+    background-color: lightblue;
+}
+
+.football {
+    background-color: lightgreen;
+}
+
+.cooking {
+    background-color: lightcoral
 }

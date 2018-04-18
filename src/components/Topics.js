@@ -5,7 +5,7 @@ import PT from 'prop-types'
 function Topics ({topics, changeTopic}) {
     return (
         <div>
-            <ul>{topics.map(topic => {
+            <ul className='nav-bar'>{topics.map(topic => {
                 return <Topic topic={topic} key={topic._id} changeTopic={changeTopic}/>
             })}</ul>
         </div>
@@ -18,7 +18,12 @@ Topics.propTypes = {
 }
 
 function Topic ({changeTopic, topic}) {
-    return <li onClick={() => changeTopic(topic)} className='topic-button' >{topic.title}</li>
+    return <li onClick={() => changeTopic(topic)} className={`topic-button ${topic.title.toLowerCase()}`} >{topic.title}</li>
+}
+
+Topic.propTypes = {
+    topic : PT.object.isRequired,
+    changeTopic : PT.func.isRequired
 }
 
 export default Topics

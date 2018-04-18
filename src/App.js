@@ -8,7 +8,7 @@ import axios from 'axios'
 class App extends Component {
   state = {
     topics: [],
-    articles: [],
+    // articles: [],
     currentTopic: 'coding'
   }
   componentDidMount = () => {
@@ -18,12 +18,12 @@ class App extends Component {
           topics: res.data
         }) 
       })
-    axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.state.currentTopic}/articles`)
-      .then((res) => {
-        this.setState({
-          articles: res.data
-        }) 
-      })
+    // axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.state.currentTopic}/articles`)
+    //   .then((res) => {
+    //     this.setState({
+    //       articles: res.data
+    //     }) 
+    //   })
   }
 
   changeTopic = topicToChange => {
@@ -34,12 +34,12 @@ class App extends Component {
   }
 
   render() {
-    const {topics, articles} = this.state
+    const {topics, currentTopic} = this.state
     return (
       <div className="App">
         <h1>NC NEWS</h1>
         <Topics changeTopic={this.changeTopic} topics={topics}/>
-        <ArticleList articles={articles}/>
+        <ArticleList currentTopic={currentTopic}/>
       </div>
     )
   }
