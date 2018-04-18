@@ -9,7 +9,13 @@
 .article-link-box {
     background-color: grey;
     height: 110px;
-    margin-bottom: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.article-link-box:hover {
+    background-color: whitesmoke;
 }
 
 .artcile-box {
@@ -23,6 +29,8 @@
     height: 60px;
     padding-top: 50px;
     background-color: lightgray;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .comment-count {
@@ -42,4 +50,15 @@
 .unhidden {
     display: unset;
     height: 100px;
+}
+
+.article-body {
+    margin-left: 200px;
+    margin-right: 100px;
+    background-color: lightblue;
+    margin-top: 0px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 40px;
 }

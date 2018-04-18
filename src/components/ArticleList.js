@@ -24,12 +24,11 @@ class ArticleLink extends Component {
     }
 
     showArticle = () => {
-        console.log('clikc')
-        if (this.state.hidden) {this.setState({
-            hidden : false
-        })} else {this.setState({
-            hidden : true
-        })}
+        if (this.state.hidden) 
+            {this.setState({hidden : false})
+        } else 
+            {this.setState({hidden : true})
+        }
     }
 
     render() {
