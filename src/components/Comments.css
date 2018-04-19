@@ -1,0 +1,64 @@
+
+.comment-list {
+    list-style-type: decimal-leading-zero;
+    color: grey;
+}
+
+.comment-votes-number {
+    float: left;
+    background-color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    margin-left: -15px;
+    border: lightblue 3px solid;
+    color: black
+}
+.comment-votes-number p{
+    padding: 0px;
+    margin: 0px;
+}
+
+.comment-box {
+    background-color: grey;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    min-height: 120px;
+}
+
+.comment-author-details{
+    background-color: lightblue;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: black;
+}
+
+.comment-body {
+    padding-left: 150px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    color: black;
+}
+
+.user-avatar {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: lightblue 3px solid;
+    
+}
+
+.comment-arrows{
+    padding: 0px;
+    margin: 0px;
+    font-size: 12px;
+}

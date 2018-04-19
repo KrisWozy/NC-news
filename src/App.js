@@ -7,9 +7,8 @@ import axios from 'axios'
 
 class App extends Component {
   state = {
-    topics: [],
-    // articles: [],
-    currentTopic: 'coding'
+    //currentTopic: 'coding',
+    topics: []
   }
   componentDidMount = () => {
     axios.get(`https://kris-ncnews.herokuapp.com/api/topics`)
@@ -18,12 +17,6 @@ class App extends Component {
           topics: res.data
         }) 
       })
-    // axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.state.currentTopic}/articles`)
-    //   .then((res) => {
-    //     this.setState({
-    //       articles: res.data
-    //     }) 
-    //   })
   }
 
   changeTopic = topicToChange => {
