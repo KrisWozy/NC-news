@@ -3,6 +3,7 @@ import './ArticleList.css'
 import PT from 'prop-types'
 import axios from 'axios'
 import Comments from './Comments'
+import {Link} from 'react-router-dom'
 
 class ArticleList extends Component {
     state = {
@@ -10,7 +11,7 @@ class ArticleList extends Component {
     }
 
     componentWillReceiveProps = () => {
-        axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.props.currentTopic}/articles`)
+        axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.props.match.params.topic_id}/articles`)
           .then((res) => {
             this.setState({
               articles: res.data
@@ -19,12 +20,11 @@ class ArticleList extends Component {
     }
 
     render() {
-    const {currentTopic} = this.props
     return (
-        <div className={`artcile-box ${currentTopic}`}>
+        <div className={`artcile-box ${this.props.match.params.topic_id}`}>
             <ul className='article-list'>{this.state.articles.map(article => {
                 return( 
-                    <Article article={article} key={article._id} componentWillReceiveProps={this.componentWillReceiveProps}/>
+                    <Article article={article} key={article._id}/>
                 )
             })}
             </ul>
@@ -32,13 +32,16 @@ class ArticleList extends Component {
     )}
 }
 
-ArticleList.propTypes = {
-    currentTopic : PT.string.isRequired
-}
-
 class Article extends Component {
     state = {
-        hidden: true
+        hidden: true,
+        voteCount: 0
+    }
+
+    componentDidMount = () => {
+        this.setState({
+            voteCount : this.props.article.votes
+        })
     }
 
     showArticle = () => {
@@ -51,22 +54,32 @@ class Article extends Component {
 
     articleVote = (value) => {
         axios.put(`https://kris-ncnews.herokuapp.com/api/articles/${this.props.article._id}/?vote=${value}`)
-        .then(() => this.props.componentWillReceiveProps())
+        .then((res) => {
+            console.log(res)
+        })
+        let newVoteCount = this.state.voteCount
+        value === 'up' ? newVoteCount += 1 : newVoteCount -= 1
+            this.setState({
+                voteCount : newVoteCount
+            })
     }
 
     render() {
     const {article} = this.props
+    const topicLink = article.belongs_to.title.toLowerCase()
     return (
         <div>
             <div className='article-link-box'>
                 <div className='votes-number'>
                     <i className="fas fa-arrow-up arrow" onClick={() => this.articleVote('up')}></i>
-                    <p>{article.votes}</p>
+                    <p>{this.state.voteCount}</p>
                     <i className="fas fa-arrow-down arrow" onClick={() => this.articleVote('down')}></i>
                 </div>
                 <div onClick={() => this.showArticle()}>
                     <li className='article-link'>{article.title}</li>
-                    <p className='article-author'>Posted to {article.belongs_to.title} by {article.created_by.name}</p>
+                    <p className='article-author'>Posted to <Link to={`/topics/${topicLink}`} className='article-topic-link'>{article.belongs_to.title}
+                        </Link> by <Link to={`/users/${article.created_by.username}`} className='article-topic-link'>{article.created_by.name}
+                        </Link></p>
                     <p className='comment-count'>{article.comments} comments</p>
                 </div>
             </div>

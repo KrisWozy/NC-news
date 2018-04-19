@@ -1,0 +1,22 @@
+.user-profile-box{
+    background-color: lightblue;
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 250px;
+    border-radius: 40px;
+    border: white 2px solid;
+}
+
+.profile-image {
+    float: left;
+    border-radius: 50%;
+    border: black 4px solid;
+    height: 200px;
+    width: 200px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.user-name-info {
+    font-size: 32px;
+}

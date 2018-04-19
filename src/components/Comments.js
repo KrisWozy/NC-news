@@ -5,7 +5,8 @@ import axios from 'axios'
 
 class Comments extends Component {
     state = {
-        comments: []
+        comments: [],
+        voteCount: 0
     }
 
     componentWillReceiveProps = () => {
@@ -17,8 +18,19 @@ class Comments extends Component {
         })
     }
 
-    render() {
+    commentVote = (comment, value) => {
+        axios.put(`https://kris-ncnews.herokuapp.com/api/comments/${comment._id}/?vote=${value}`)
+        .then((res) => {
+            console.log(res)
+        })
+        let newVoteCount = comment.votes
+        value === 'up' ? newVoteCount += 1 : newVoteCount -= 1
+            this.setState({
+                voteCount : newVoteCount
+            })
+    }
 
+    render() {
     return(
         <div>
             <div>
@@ -27,7 +39,11 @@ class Comments extends Component {
             </div>
         <ul className='comment-ul'>
             {this.state.comments.map(comment => {
-                return <li className='comment-list'><Comment comment={comment} key={comment._id}/></li>
+                return (
+                    <li className='comment-list'>
+                        <Comment comment={comment} commentVote={this.commentVote} key={comment._id} voteCount={this.state.voteCount}/>
+                    </li>
+                    )
             })}
         </ul>
         </div>
@@ -35,18 +51,19 @@ class Comments extends Component {
     }
 
 }
+
 Comments.propTypes = {
     article : PT.object.isRequired
 }
 
-function Comment ({comment}) {
+function Comment ({comment, commentVote, voteCount}) {
     return (
         <div className='comment-box'>
             <img className='user-avatar' src={comment.created_by.avatar_url} alt='avatar-url'></img>
             <div className='comment-votes-number'>
-                <i className="fas fa-arrow-up comment-arrows"></i>
+                <i className="fas fa-arrow-up comment-arrows" onClick={() => commentVote(comment,'up')}></i>
                 <p>{comment.votes}</p>
-                <i className="fas fa-arrow-down comment-arrows"></i>
+                <i className="fas fa-arrow-down comment-arrows" onClick={() => commentVote(comment, 'down')}></i>
             </div>
             <div>
                 <div className='comment-author-details'>
