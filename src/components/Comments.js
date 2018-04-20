@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import './Comments.css'
 import PT from 'prop-types'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 class Comments extends Component {
     state = {
@@ -31,14 +32,12 @@ class Comments extends Component {
     }
 
     render() {
-    return(
+        const {loggedInUser, article} = this.props
+        return(
         <div>
-            <div>
-                <h4>Post a comment</h4>
-                <input></input>
-            </div>
+            <AddComment loggedInUser = {loggedInUser} article = {article}/>
         <ul className='comment-ul'>
-            {this.state.comments.map(comment => {
+            {this.state.comments.map((comment, i) => {
                 return (
                     <li className='comment-list'>
                         <Comment comment={comment} commentVote={this.commentVote} key={comment._id} voteCount={this.state.voteCount}/>
@@ -62,18 +61,66 @@ function Comment ({comment, commentVote, voteCount}) {
             <img className='user-avatar' src={comment.created_by.avatar_url} alt='avatar-url'></img>
             <div className='comment-votes-number'>
                 <i className="fas fa-arrow-up comment-arrows" onClick={() => commentVote(comment,'up')}></i>
-                <p>{comment.votes}</p>
+                <p>{voteCount}</p>
                 <i className="fas fa-arrow-down comment-arrows" onClick={() => commentVote(comment, 'down')}></i>
             </div>
             <div>
                 <div className='comment-author-details'>
-                    <label>{comment.created_by.name} - </label>
+                    <label><Link to={`/users/${comment.created_by.username}`}>{comment.created_by.name}</Link> - </label>
                     <label>{formatDate(comment.created_at)}</label>
                 </div>
                 <p className='comment-body'>{comment.body}</p>
             </div>
         </div>
     )
+}
+
+class AddComment extends Component {
+    state ={
+        currentUser: this.props.loggedInUser,
+        commentBody: '',
+        article: this.props.article
+    }
+
+    handleChange = event => {
+        const commentText = event.target.value
+        this.setState({
+            commentBody: commentText
+        })
+    }
+
+    postComment = () => {
+        axios.post(`https://kris-ncnews.herokuapp.com/api/articles/${this.state.article._id}/comments`, {
+            body: this.state.commentBody,
+            created_by: this.state.currentUser._id
+          })
+          .then((res) => {
+              console.log(res)
+          })
+    }
+
+    clearCommentField = () => {
+        this.setState({
+            commentBody: ''
+        })
+    }
+
+    render () {
+    return (
+        <div>
+            <textarea 
+                type='text' 
+                className='add-comment-field' 
+                placeholder='Post a comment...' 
+                onChange={this.handleChange}>
+            </textarea>
+            <button 
+                className='comment-button' 
+                onClick={() => {this.postComment(); this.clearCommentField()}}>Post
+            </button>
+        </div>
+    )
+    }
 }
 
 function formatDate(date){

@@ -15,18 +15,20 @@ class User extends Component {
         })
     }
     render() {
-        return (
-            <div className='user-profile-box'>
-                <img className='profile-image' src={this.state.user.avatar_url} alt='avatar-url'></img>
-                <div className='user-name-info'>
-                    <p>Name: {this.state.user.name}</p>
-                    <p>Username: {this.state.user.username}</p>
-                </div>
-            </div>
-        )
-
+        return <Profile user={this.state.user}/>
     }
+}
 
+function Profile ({user}) {
+    return (
+        <div className='user-profile-box'>
+            <img className='profile-image' src={user.avatar_url} alt='avatar-url'></img>
+            <div className='user-name-info'>
+                <p>Name: {user.name}</p>
+                <p>Username: {user.username}</p>
+            </div>
+        </div>
+    )
 }
 
 export default User

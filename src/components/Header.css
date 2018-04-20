@@ -1,0 +1,42 @@
+.login-details {
+    float: right;
+    color: white;
+    padding: 10px;
+    background-color: gray;
+    border-radius: 10px;
+    border: white 2px solid;
+    margin-right: 10px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+}
+
+.mini-avatar-image {
+    border: white 2px solid;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    float: left;
+
+}
+
+.main-header {
+    font-size: 50px;
+    margin-left: 10%;
+    margin-bottom: 50px;
+    color: white;
+}
+
+.logged-in-info {
+    padding-bottom: 0px;
+}
+
+.profile-links {
+    padding-top: 5px;
+    margin-top: 0px;
+    color: lightblue;
+    text-decoration: none;
+}
+
+.redTags{
+    color: red;
+}

@@ -10,22 +10,31 @@ class ArticleList extends Component {
         articles: []
     }
 
-    componentWillReceiveProps = () => {
-        axios.get(`https://kris-ncnews.herokuapp.com/api/topics/${this.props.match.params.topic_id}/articles`)
-          .then((res) => {
-            this.setState({
-              articles: res.data
-            }) 
-        })
+    componentDidMount = () => {
+        const topicURL = `https://kris-ncnews.herokuapp.com/api/topics/${this.props.match.params.topic_id}/articles`
+        const articleURL = `https://kris-ncnews.herokuapp.com/api/articles/${this.props.match.params.article_id}`
+        !this.props.match.params.topic_id ? this.getArticles(articleURL) : this.getArticles(topicURL)
+    }
+
+    componentDidUpdate = () => {
+        const topicURL = `https://kris-ncnews.herokuapp.com/api/topics/${this.props.match.params.topic_id}/articles`
+        const articleURL = `https://kris-ncnews.herokuapp.com/api/articles/${this.props.match.params.article_id}`
+        !this.props.match.params.topic_id ? this.getArticles(articleURL) : this.getArticles(topicURL)
+    }
+
+    getArticles = (url) => {axios.get(url).then((res) => {
+        Array.isArray(res.data) ?
+          this.setState({articles: res.data}) : this.setState({articles: [res.data]})  
+      })
     }
 
     render() {
+    const {loggedInUser} = this.props
+    const onlyOne = this.state.articles.length === 1 ? false : true
     return (
-        <div className={`artcile-box ${this.props.match.params.topic_id}`}>
+        <div className={`artcile-box ${this.props.match.params.topic_id ? this.props.match.params.topic_id : 'solo-article'}`}>
             <ul className='article-list'>{this.state.articles.map(article => {
-                return( 
-                    <Article article={article} key={article._id}/>
-                )
+                return <Article article={article} loggedInUser={loggedInUser} onlyOne={onlyOne} key={article._id}/>
             })}
             </ul>
         </div>
@@ -39,9 +48,7 @@ class Article extends Component {
     }
 
     componentDidMount = () => {
-        this.setState({
-            voteCount : this.props.article.votes
-        })
+        this.setState({voteCount : this.props.article.votes})
     }
 
     showArticle = () => {
@@ -65,7 +72,7 @@ class Article extends Component {
     }
 
     render() {
-    const {article} = this.props
+    const {article, loggedInUser, onlyOne} = this.props
     const topicLink = article.belongs_to.title.toLowerCase()
     return (
         <div>
@@ -83,12 +90,12 @@ class Article extends Component {
                     <p className='comment-count'>{article.comments} comments</p>
                 </div>
             </div>
-            <div className={(!this.state.hidden) ? 'unhidden' : 'hidden'} >
+            <div className={(this.state.hidden && onlyOne) ? 'hidden' : 'unhidden'} >
                 <div className='article-body'>
                     <p>{article.body}</p>
-                    <p>Comments</p>
+                    <Link to={`/articles/${article._id}`} className={'full-article-link ' + (onlyOne ? 'com-unhidden' : 'hidden')}>Get full article</Link>
                     <div className='comments-div'>
-                        <Comments article={article}/>
+                        <Comments article={article} loggedInUser={loggedInUser}/>
                     </div>
                 </div>
             </div>

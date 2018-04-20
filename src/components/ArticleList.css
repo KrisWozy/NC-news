@@ -103,3 +103,15 @@
 .article-topic-link:hover {
     color: white;
 }
+
+.full-article-link {
+    text-decoration: none;
+    margin-bottom: 20px;
+    float: right;
+    color: grey;
+
+}
+
+.com-unhidden {
+    display: unset;
+}

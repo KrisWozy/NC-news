@@ -62,3 +62,34 @@
     margin: 0px;
     font-size: 12px;
 }
+
+.add-comment-field {
+    width: 90%;
+    height: 50px;
+    text-align: start;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 16px;
+    margin-left: 20px;
+    border-radius: 10px;
+}
+
+.add-comment-field:focus{
+    height: 150px;
+}
+
+.comment-button {
+    background-color: lightblue;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.comment-button:hover {
+    background-color: white;
+}
