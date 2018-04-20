@@ -8,7 +8,8 @@ import api from '../api'
 
 class ArticleList extends Component { 
     state = {
-        articles: []
+        articles: [],
+        loading: true
     }
 
     componentDidMount = () => {
@@ -25,18 +26,31 @@ class ArticleList extends Component {
 
     getArticles = (url) => {axios.get(url).then((res) => {
         Array.isArray(res.data) ?
-          this.setState({articles: res.data}) : this.setState({articles: [res.data]})  
+          this.setState({
+              articles: res.data,
+              loading: false
+            }) : this.setState({
+                articles: [res.data],
+                loading: false
+            })  
       })
     }
 
     render() {
+    
     const {loggedInUser} = this.props
     const {articles} = this.state
+    const {topic_id} = this.props.match.params
     const onlyOne = this.state.articles.length === 1 ? false : true
+    if (this.state.loading) return <div>Loading</div>
     return (
-        <div className={`artcile-box ${this.props.match.params.topic_id ? this.props.match.params.topic_id : 'solo-article'}`}>
+        <div className={`artcile-box ${topic_id ? topic_id : 'solo-article'}`}>
             <ul className='article-list'>{articles.map(article => {
-                return <Article article={article} loggedInUser={loggedInUser} onlyOne={onlyOne} key={article._id}/>
+                return <Article 
+                    article={article} 
+                    loggedInUser={loggedInUser} 
+                    onlyOne={onlyOne} 
+                    key={article._id}/>
             })}
             </ul>
         </div>

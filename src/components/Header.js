@@ -23,7 +23,13 @@ function Header ({loggedInUser}) {
                     </p>
                 </div>
             </div>
-            <p className='main-header'><span className = 'redTags'>{'<'}</span>Northcoders News<span className = 'redTags'>{' />'}</span></p>  
+            <p className='main-header'>
+                <span className = 'redTags'>
+                    {'<'}
+                </span>Northcoders News<span className = 'redTags'>
+                    {' />'}
+                </span>
+            </p>  
         </div>
     )
 }
