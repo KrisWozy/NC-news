@@ -93,3 +93,24 @@
 .comment-button:hover {
     background-color: white;
 }
+
+.delete-button {
+    color: gray;
+    float: right;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    color: white;
+}
+
+.comment-creator-link {
+    text-decoration: none;
+    color: black;
+}
+
+.comment-creator-link:hover {
+    text-decoration: none;
+    color: white;
+}

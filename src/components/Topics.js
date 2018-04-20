@@ -10,7 +10,6 @@ function Topics (props) {
             <ul className='nav-bar'>{topics.map(topic => {
                 return <Topic topic={topic} key={topic._id}/>
                 })}
-                <li className='users-button'><Link to={`/users`} className='topic-link'>Users</Link></li>
             </ul>
         </div>
     )

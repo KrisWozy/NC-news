@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import './Comments.css'
 import PT from 'prop-types'
-import axios from 'axios'
 import {Link} from 'react-router-dom'
+import api from '../api'
 
 class Comments extends Component {
     state = {
@@ -11,7 +11,7 @@ class Comments extends Component {
     }
 
     componentWillReceiveProps = () => {
-        axios.get(`https://kris-ncnews.herokuapp.com/api/articles/${this.props.article._id}/comments`)
+        api.getComments(this.props.article._id)
           .then((res) => {
             this.setState({
               comments: res.data
@@ -20,7 +20,7 @@ class Comments extends Component {
     }
 
     commentVote = (comment, value) => {
-        axios.put(`https://kris-ncnews.herokuapp.com/api/comments/${comment._id}/?vote=${value}`)
+        api.commentVotePut(comment._id, value)
         .then((res) => {
             console.log(res)
         })
@@ -31,18 +31,35 @@ class Comments extends Component {
             })
     }
 
+    deleteComment = (comment) => {
+        api.deleteCommentRequest(comment._id)
+        .then((res) => {
+            console.log(res)
+        })
+    }
+
     render() {
         const {loggedInUser, article} = this.props
         return(
         <div>
-            <AddComment loggedInUser = {loggedInUser} article = {article}/>
+            <AddComment 
+                loggedInUser = {loggedInUser} 
+                article = {article}
+            />
         <ul className='comment-ul'>
             {this.state.comments.map((comment, i) => {
                 return (
                     <li className='comment-list'>
-                        <Comment comment={comment} commentVote={this.commentVote} key={comment._id} voteCount={this.state.voteCount}/>
+                        <Comment 
+                            comment={comment} 
+                            commentVote={this.commentVote} 
+                            key={comment._id} 
+                            voteCount={this.state.voteCount}
+                            loggedInUser={loggedInUser}
+                            deleteComment={this.deleteComment} 
+                        />
                     </li>
-                    )
+                )
             })}
         </ul>
         </div>
@@ -55,19 +72,44 @@ Comments.propTypes = {
     article : PT.object.isRequired
 }
 
-function Comment ({comment, commentVote, voteCount}) {
+function Comment ({comment, commentVote, voteCount, loggedInUser, deleteComment}) {
     return (
         <div className='comment-box'>
-            <img className='user-avatar' src={comment.created_by.avatar_url} alt='avatar-url'></img>
+            <img 
+                className='user-avatar' 
+                src={comment.created_by.avatar_url} 
+                alt='avatar-url'>
+            </img>
             <div className='comment-votes-number'>
-                <i className="fas fa-arrow-up comment-arrows" onClick={() => commentVote(comment,'up')}></i>
-                <p>{voteCount}</p>
-                <i className="fas fa-arrow-down comment-arrows" onClick={() => commentVote(comment, 'down')}></i>
+                <i 
+                    className="fas fa-arrow-up comment-arrows" 
+                    onClick={() => commentVote(comment,'up')}>
+                </i>
+                <p>{comment.votes}</p>
+                <i 
+                    className="fas fa-arrow-down comment-arrows" 
+                    onClick={() => commentVote(comment, 'down')}>
+                </i>
             </div>
             <div>
                 <div className='comment-author-details'>
-                    <label><Link to={`/users/${comment.created_by.username}`}>{comment.created_by.name}</Link> - </label>
-                    <label>{formatDate(comment.created_at)}</label>
+                    <label>
+                        <Link 
+                            to={`/users/${comment.created_by.username}`}
+                            className='comment-creator-link'>
+                            {comment.created_by.name}
+                        </Link> - 
+                    </label>
+                    <label>
+                        {formatDate(comment.created_at)}
+                    </label>
+                    <label className='delete-button'>
+                        <i 
+                            className={comment.created_by.username === loggedInUser.username ? "fas fa-trash" : ''}
+                            onClick={() => deleteComment(comment)}
+                        >
+                        </i>
+                    </label>
                 </div>
                 <p className='comment-body'>{comment.body}</p>
             </div>
@@ -90,7 +132,7 @@ class AddComment extends Component {
     }
 
     postComment = () => {
-        axios.post(`https://kris-ncnews.herokuapp.com/api/articles/${this.state.article._id}/comments`, {
+        api.postNewComment(this.state.article._id, {
             body: this.state.commentBody,
             created_by: this.state.currentUser._id
           })
@@ -116,7 +158,9 @@ class AddComment extends Component {
             </textarea>
             <button 
                 className='comment-button' 
-                onClick={() => {this.postComment(); this.clearCommentField()}}>Post
+                onClick={
+                    () => {this.postComment(); 
+                        this.clearCommentField()}}>Post
             </button>
         </div>
     )

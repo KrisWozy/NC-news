@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import './User.css'
-import axios from 'axios'
+import api from '../api'
 
 class User extends Component {
     state = {
         user: {}
     }
     componentDidMount = () => {
-        axios.get(`https://kris-ncnews.herokuapp.com/api/users/${this.props.match.params.user_id}`)
+        api.getUser(this.props.match.params.user_id)
           .then((res) => {
             this.setState({
               user: res.data
@@ -22,7 +22,11 @@ class User extends Component {
 function Profile ({user}) {
     return (
         <div className='user-profile-box'>
-            <img className='profile-image' src={user.avatar_url} alt='avatar-url'></img>
+            <img 
+                className='profile-image' 
+                src={user.avatar_url} 
+                alt='avatar-url'>
+            </img>
             <div className='user-name-info'>
                 <p>Name: {user.name}</p>
                 <p>Username: {user.username}</p>

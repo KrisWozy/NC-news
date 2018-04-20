@@ -4,8 +4,9 @@ import PT from 'prop-types'
 import axios from 'axios'
 import Comments from './Comments'
 import {Link} from 'react-router-dom'
+import api from '../api'
 
-class ArticleList extends Component {
+class ArticleList extends Component { 
     state = {
         articles: []
     }
@@ -30,10 +31,11 @@ class ArticleList extends Component {
 
     render() {
     const {loggedInUser} = this.props
+    const {articles} = this.state
     const onlyOne = this.state.articles.length === 1 ? false : true
     return (
         <div className={`artcile-box ${this.props.match.params.topic_id ? this.props.match.params.topic_id : 'solo-article'}`}>
-            <ul className='article-list'>{this.state.articles.map(article => {
+            <ul className='article-list'>{articles.map(article => {
                 return <Article article={article} loggedInUser={loggedInUser} onlyOne={onlyOne} key={article._id}/>
             })}
             </ul>
@@ -60,7 +62,7 @@ class Article extends Component {
     }
 
     articleVote = (value) => {
-        axios.put(`https://kris-ncnews.herokuapp.com/api/articles/${this.props.article._id}/?vote=${value}`)
+        api.articleVotePut(this.props.article._id, value)
         .then((res) => {
             console.log(res)
         })
@@ -78,24 +80,49 @@ class Article extends Component {
         <div>
             <div className='article-link-box'>
                 <div className='votes-number'>
-                    <i className="fas fa-arrow-up arrow" onClick={() => this.articleVote('up')}></i>
-                    <p>{this.state.voteCount}</p>
-                    <i className="fas fa-arrow-down arrow" onClick={() => this.articleVote('down')}></i>
+                    <i 
+                        className="fas fa-arrow-up arrow" 
+                        onClick={() => this.articleVote('up')}>
+                    </i>
+                    <p>
+                        {this.state.voteCount}
+                    </p>
+                    <i 
+                        className="fas fa-arrow-down arrow" 
+                        onClick={() => this.articleVote('down')}>
+                    </i>
                 </div>
                 <div onClick={() => this.showArticle()}>
                     <li className='article-link'>{article.title}</li>
-                    <p className='article-author'>Posted to <Link to={`/topics/${topicLink}`} className='article-topic-link'>{article.belongs_to.title}
-                        </Link> by <Link to={`/users/${article.created_by.username}`} className='article-topic-link'>{article.created_by.name}
-                        </Link></p>
+                    <p 
+                        className='article-author'>Posted to 
+                        <Link 
+                            to={`/topics/${topicLink}`} 
+                            className='article-topic-link'
+                        >{` ${article.belongs_to.title} `}
+                        </Link> by 
+                        <Link 
+                            to={`/users/${article.created_by.username}`} 
+                            className='article-topic-link'
+                        >{` ${article.created_by.name} `}
+                        </Link>
+                    </p>
                     <p className='comment-count'>{article.comments} comments</p>
                 </div>
             </div>
             <div className={(this.state.hidden && onlyOne) ? 'hidden' : 'unhidden'} >
                 <div className='article-body'>
-                    <p>{article.body}</p>
-                    <Link to={`/articles/${article._id}`} className={'full-article-link ' + (onlyOne ? 'com-unhidden' : 'hidden')}>Get full article</Link>
+                    <p>
+                        {article.body}
+                    </p>
+                    <Link 
+                        to={`/articles/${article._id}`} 
+                        className={'full-article-link ' + (onlyOne ? 'com-unhidden' : 'hidden')}
+                    >Get full article</Link>
                     <div className='comments-div'>
-                        <Comments article={article} loggedInUser={loggedInUser}/>
+                        <Comments 
+                            article={article} 
+                            loggedInUser={loggedInUser}/>
                     </div>
                 </div>
             </div>
