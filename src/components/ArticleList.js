@@ -60,11 +60,15 @@ class ArticleList extends Component {
 class Article extends Component {
     state = {
         hidden: true,
-        voteCount: 0
+        voteCount: 0,
+        loading: true
     }
 
     componentDidMount = () => {
-        this.setState({voteCount : this.props.article.votes})
+        this.setState({
+            voteCount : this.props.article.votes,
+            loading: false
+        })
     }
 
     showArticle = () => {
@@ -90,6 +94,7 @@ class Article extends Component {
     render() {
     const {article, loggedInUser, onlyOne} = this.props
     const topicLink = article.belongs_to.title.toLowerCase()
+    if (this.state.loading) {return <h5>loading...</h5>}
     return (
         <div>
             <div className='article-link-box'>
