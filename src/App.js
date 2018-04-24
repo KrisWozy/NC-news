@@ -32,6 +32,7 @@ class App extends Component {
   newLogin = (newUser) => {
     api.getUser(newUser)
     .then((res) => {
+      if (!res.name) alert('Invalid user')
       this.setState({
         loggedInUser: res.data
       })  
