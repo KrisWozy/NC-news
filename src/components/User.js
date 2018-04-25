@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import './User.css'
 import api from '../api'
+import LoadingSpinner from './LoadingSpinner'
 
 class User extends Component {
     state = {
-        user: {}
+        user: {},
+        loading : true
     }
     componentDidMount = () => {
         api.getUser(this.props.match.params.user_id)
           .then((res) => {
             this.setState({
-              user: res.data
+              user: res.data,
+              loading: false
             }) 
         })
     }
     render() {
+        if (this.state.loading) return <div><LoadingSpinner/></div>
         return <Profile user={this.state.user}/>
     }
 }

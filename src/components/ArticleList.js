@@ -5,6 +5,7 @@ import axios from 'axios'
 import Comments from './Comments'
 import {Link} from 'react-router-dom'
 import api from '../api'
+import LoadingSpinner from './LoadingSpinner'
 
 class ArticleList extends Component { 
     state = {
@@ -42,7 +43,7 @@ class ArticleList extends Component {
     const {articles} = this.state
     const {topic_id} = this.props.match.params
     const onlyOne = this.state.articles.length === 1 ? false : true
-    if (this.state.loading) return <div>Loading</div>
+    if (this.state.loading) return <div><LoadingSpinner/></div>
     return (
         <div className={`artcile-box ${topic_id ? topic_id : 'solo-article'}`}>
             <ul className='article-list'>{articles.map(article => {
@@ -92,9 +93,10 @@ class Article extends Component {
     }
 
     render() {
+    console.log(this.state.loading)
     const {article, loggedInUser, onlyOne} = this.props
     const topicLink = article.belongs_to.title.toLowerCase()
-    if (this.state.loading) {return <h5>loading...</h5>}
+    if (this.state.loading) {return <div><LoadingSpinner/></div>} else {
     return (
         <div>
             <div className='article-link-box'>
@@ -147,7 +149,7 @@ class Article extends Component {
             </div>
         </div>
     )
-    } 
+    }}
     
     static propTypes = {
         article : PT.object.isRequired
