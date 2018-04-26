@@ -36,6 +36,7 @@ class ArticleList extends Component {
             })  
       })
     }
+    
 
     render() {
     
@@ -93,7 +94,6 @@ class Article extends Component {
     }
 
     render() {
-    console.log(this.state.loading)
     const {article, loggedInUser, onlyOne} = this.props
     const topicLink = article.belongs_to.title.toLowerCase()
     if (this.state.loading) {return <div><LoadingSpinner/></div>} else {
