@@ -47,10 +47,9 @@ class ArticleList extends Component {
     render() {
     
     const {loggedInUser} = this.props
-    const {articles} = this.state
+    const {articles, loading} = this.state
     const {topic_id} = this.props.match.params
     const onlyOne = this.state.articles.length === 1 ? false : true
-    if (this.state.loading) return <div><LoadingSpinner/></div>
     return (
         <div className={`artcile-box ${topic_id ? topic_id : 'solo-article'}`}>
             <ul className='article-list'>{articles.map(article => {
@@ -58,7 +57,8 @@ class ArticleList extends Component {
                     article={article} 
                     loggedInUser={loggedInUser} 
                     onlyOne={onlyOne} 
-                    key={article._id}/>
+                    key={article._id}
+                    loading={loading}/>
             })}
             </ul>
         </div>
@@ -100,9 +100,9 @@ class Article extends Component {
     }
 
     render() {
-    const {article, loggedInUser, onlyOne} = this.props
+    const {article, loggedInUser, onlyOne, loading} = this.props
     const topicLink = article.belongs_to.title.toLowerCase()
-    if (this.state.loading) {return <div><LoadingSpinner/></div>} else {
+    if (loading) {return <div><LoadingSpinner/></div>} else {
     return (
         <div>
             <div className='article-link-box'>
