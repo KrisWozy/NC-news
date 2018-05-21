@@ -18,7 +18,7 @@ function Header ({loggedInUser}) {
                         <Link to={`/users/${loggedInUser.username}`}
                         >Profile</Link>
                             <span> - </span>
-                        <Link to={`/`}
+                        <Link to={`/login`}
                         >Log out</Link>
                     </p>
                 </div>

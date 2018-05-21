@@ -4,6 +4,7 @@ import ArticleList from './components/ArticleList'
 import User from './components/User'
 import Header from './components/Header'
 import Login from './components/Login'
+import Welcome from './components/Welcome'
 import './App.css';
 import {Route} from 'react-router-dom'
 import api from './api'
@@ -45,10 +46,12 @@ class App extends Component {
       <div className="App">
         <Header loggedInUser={loggedInUser}/>
         <Topics topics={topics}/>
+        <Route exact path='/' render={(props) => (
+          <Welcome {...props} />)}/>
         <Route exact path='/topics/:topic_id' render={(props) => (
           <ArticleList {...props} loggedInUser={loggedInUser} />)}/>
         <Route exact path='/users/:user_id' component={User} />
-        <Route exact path='/' render={(props) => (
+        <Route exact path='/login' render={(props) => (
           <Login {...props} newLogin={this.newLogin}/>)} />
         <Route exact path='/articles/:article_id' render={(props) => (
           <ArticleList {...props} loggedInUser={loggedInUser} />)}/>
