@@ -13,23 +13,29 @@ function Header ({loggedInUser}) {
                 </img>
                 <div className='logged-in-info'>
                     <span>You are logged in as: {loggedInUser.name}</span>
-                    <p 
-                        className='profile-links'>
-                        <Link to={`/users/${loggedInUser.username}`}
+                    <p>
+                        <Link 
+                            to={`/users/${loggedInUser.username}`} 
+                            className='profile-links'
                         >Profile</Link>
                             <span> - </span>
-                        <Link to={`/login`}
+                        <Link 
+                            to={`/login`} 
+                            className='profile-links'
                         >Log out</Link>
                     </p>
                 </div>
             </div>
             <p className='main-header'>
-                <span className = 'redTags'>
+            <Link 
+                to={'/'} 
+                className='main-header'>
+                    <span className = 'redTags'>
                     {'<'}
-                </span>Northcoders News<span className = 'redTags'>
+                </span >Northcoders News<span className = 'redTags'>
                     {' />'}
-                </span>
-            </p>  
+                </span></Link>
+            </p> 
         </div>
     )
 }

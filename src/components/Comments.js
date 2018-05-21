@@ -10,7 +10,7 @@ class Comments extends Component {
         voteCount: 0
     }
 
-    componentWillReceiveProps = () => {
+    componentWillUpdate = () => {
         api.getComments(this.props.article._id)
           .then((res) => {
             this.setState({

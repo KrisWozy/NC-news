@@ -24,6 +24,7 @@
     margin-left: 10%;
     margin-bottom: 50px;
     color: white;
+    text-decoration: none;
 }
 
 .logged-in-info {
@@ -39,4 +40,5 @@
 
 .redTags{
     color: red;
+    text-decoration: none;
 }

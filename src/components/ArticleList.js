@@ -19,10 +19,16 @@ class ArticleList extends Component {
         !this.props.match.params.topic_id ? this.getArticles(articleURL) : this.getArticles(topicURL)
     }
 
-    componentDidUpdate = () => {
-        const topicURL = `https://kris-ncnews.herokuapp.com/api/topics/${this.props.match.params.topic_id}/articles`
+    componentDidUpdate = (prevProps) => {
+        const oldParams = prevProps.match.params.topic_id
+        const newParams = this.props.match.params.topic_id
+        if (newParams !== oldParams) 
+        {const topicURL = `https://kris-ncnews.herokuapp.com/api/topics/${this.props.match.params.topic_id}/articles`
         const articleURL = `https://kris-ncnews.herokuapp.com/api/articles/${this.props.match.params.article_id}`
         !this.props.match.params.topic_id ? this.getArticles(articleURL) : this.getArticles(topicURL)
+        this.setState({
+            loading: true
+        })}
     }
 
     getArticles = (url) => {axios.get(url).then((res) => {
